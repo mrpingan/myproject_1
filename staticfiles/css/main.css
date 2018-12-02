@@ -32,6 +32,9 @@ a {
     cursor: pointer;
 }
 
+.ui.items.products > .item > .content {
+    position: relative;
+}
 .ui.items.products > .item:hover {
     background: #EFEFEF;
 }
