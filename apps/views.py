@@ -6,6 +6,7 @@ from collections import OrderedDict
 from django.shortcuts import render
 
 from apps.product.models import Product
+from apps.product.form import ProductForm
 
 from utils.time_utils import date,str2date
 
@@ -17,7 +18,8 @@ def index_view(request,days=4):
             _date = date(-i).date()
             product[_date.strftime('%Y-%m-%d')] = Product.objects.filter(public=True,created_at__contains=_date).order_by('-created_at')
         context = {
-            'products':product
+            'products':product,
+            'form':ProductForm
         }
         return render(request,'index.html',context)
 
@@ -30,4 +32,4 @@ def index_view(request,days=4):
             'products':Product.objects.filter(public=True,created_at__contains=_date).order_by('-vote_count','-created_at')
         }
 
-        return render(request,'product-item.html',context)
+        return render(request,'components/products.tpl.html',context)

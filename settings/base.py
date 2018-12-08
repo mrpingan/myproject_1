@@ -127,3 +127,11 @@ STATIC_ROOT = os.path.join(BASE_DIR,'static')
 STATICFILES_DIRS = (
     os.path.join(BASE_DIR,'staticfiles'),
 )
+
+# Auth
+AUTH = {
+    'github':{
+        'client_id':'307cb05928f809b67935',
+        'client_secret':'4f7e15948750e4b4a47dcbea1bfebaa803bcc6e8'
+    }
+}

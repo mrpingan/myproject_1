@@ -14,10 +14,24 @@
         <div class="item"><h2 class="ui inverted header">品味</h2></div>
         <div class="menu right">
             <div class="item">
-                <button type="button" class="ui inverted circular button">
-                    <i class="icon github Alternate"></i>
-                    登录
-                </button>
+                {% if request.user.is_authenticated %}
+                    <div class="ui inline dropdown">
+                        <div class="text">
+                            <img src="{{ request.user.avatar  }}" alt="" class="ui avatar image">
+                            {{ request.user.username }}
+                        </div>
+
+                        <i class="dropdown icon"></i>
+                        <div class="menu">
+                            <a href="/logout/" class="item">注销</a>
+                        </div>
+                    </div>
+                {% else %}
+                    <a href="/auth/github/"  class="ui inverted circular button">
+                        <i class="icon github Alternate"></i>
+                        登录
+                    </a>
+                {% endif %}
             </div>
         </div>
     </div>
@@ -25,7 +39,7 @@
     <h1 class="ui inverted center aligned header slogan">
         有味道的产品
         <p class="ui sub header">不错过任何一个新产品</p>
-        <button class="ui large green circular button"><i class="icon plus"></i>分享产品</button>
+        <button class="ui large green circular button btn-share"><i class="icon plus"></i>分享产品</button>
     </h1>
 </div>
 
@@ -37,30 +51,7 @@
 
         <div id="products-wrapper">
             {% for dt,items in products.items  %}
-                <span class="date">{{ dt }}</span>
-                <div class="ui divider"></div>
-
-                <div class="ui items products">
-                    {% if items|length > 0 %}
-                        {% for product in items %}
-                        <div class="item">
-                            <a href="javascript:void(0)" class="upvote-link">
-                                <i class="icon thumbs up outline"></i>
-                                <span>{{ product.vote_count }}</span>
-                            </a>
-                            <div class="content">
-                                <div class="header">{{ product.name }}</div>
-                                <div class="description">{{ product.digest }}</div>
-                                <div class="ui tiny image avatar">
-                                    <img src="{{ product.user.avatar }}" alt="{{ product.user.nickname }}">
-                                </div>
-                            </div>
-                        </div>
-                        {% endfor %}
-                    {% else %}
-                    <p>没有任何产品</p>
-                    {% endif %}
-                </div>
+                {% include "components/products.tpl.html" with date=dt products=items %}
             {% endfor %}
         </div>
 
@@ -70,43 +61,64 @@
     </div>
 </div>
 
+<div class="ui mini modal share">
+  <div class="header">分享新产品</div>
+  <div class="content">
+    <form action="/product/new/" class="ui form" method="post">
+        {% csrf_token %}
+        {% for field in form %}
+            <div class="field">
+                {{ field.label_tag }}
+                {{ field }}
+            </div>
+        {% endfor %}
+        <div class="actions">
+            <div class="ui black deny button">取消</div>
+            <button type="submit" class=" ui submit green right labeled icon button btn-submit">
+                提交
+                <i class="checkmark icon"></i>
+            </button>
+        </div>
+    </form>
+  </div>
+</div>
+
+
+<script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+<script src="/static/semantic/semantic.js"></script>
+
 <script>
-    (function () {
-        var httpRequest;
-        document.getElementById("load-btn").addEventListener("click",makeRequest);
+    $(function () {
+        $(".ui.inline.dropdown").dropdown();
 
-        function makeRequest() {
-            var dateNodes = document.getElementsByClassName("date");
-            var lastDateNodes = dateNodes[dateNodes.length-1];
-            var lastDate = lastDateNodes.innerText;
+        $(".btn-share").bind("click",function (e) {
+            {% if request.user.is_authenticated %}
+                $('.ui.mini.modal.share').modal("show");
+            {% else %}
+                window.location.href = '/auth/github';
 
-            if(window.XMLHttpRequest){
-                httpRequest = new XMLHttpRequest();
-            } else if (window.ActiveXObject) {
-                httpRequest = new ActiveXObject("Microsoft.XMLHTTP");
-            } else {
-                alert("Can't create an XMLHTTP instance");
-                return false;
-            }
+            {% endif %}
+        });
 
-            httpRequest.onreadystatechange = renderProduct;
-            httpRequest.open('GET',"/?last_dt=" + lastDate);
-            httpRequest.send();
-        }
+        $("#load-btn").bind("click",function (e) {
+            var lastDate = $("#products-wrapper .date").last().text();
 
-        function renderProduct() {
-            if (httpRequest.readyState === XMLHttpRequest.DONE) {
-                if (httpRequest.status === 200) {
-                    var currentNode = document.createRange().createContextualFragment(httpRequest.responseText)
-                    document.getElementById("products-wrapper").appendChild(currentNode)
-                } else {
-                    alert("error")
+            $.ajax({
+                type: "GET",
+                url:"/?last_dt=" + lastDate,
+                success:function (response) {
+                    console.log(response);
+                    $("#products-wrapper").append(response)
+                },
+                error:function (err) {
+                    alert(err);
                 }
-            }
-        }
-    })();
+            })
 
+        });
+    })
 </script>
+
 
 </body>
 
