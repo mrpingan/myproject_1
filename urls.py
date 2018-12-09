@@ -18,7 +18,7 @@ from django.urls import path
 
 from apps.views import index_view
 from apps.account.views import login_view,logout_view,auth_github_view,auth_github_callback_view
-from apps.product.views import new_product_view
+from apps.product.views import new_product_view,new_product_vote
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -29,4 +29,6 @@ urlpatterns = [
     path('auth/github/callback',auth_github_callback_view,name='auth_github_callback'),
 
     path('product/new/',new_product_view,name='new_product'),
+    path('product/vote/',new_product_vote,name='vote_product'),
+
 ]

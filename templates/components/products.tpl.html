@@ -1,3 +1,4 @@
+{% load buttons %}
 <span class="date">{{ date }}</span>
 <div class="ui divider"></div>
 
@@ -5,12 +6,9 @@
     {% if products|length > 0 %}
         {% for product in products %}
         <div class="item">
-            <a href="javascript:void(0)" class="upvote-link">
-                <i class="icon thumbs up outline"></i>
-                <span>{{ product.vote_count }}</span>
-            </a>
+            {% vote_button product %}
             <div class="content">
-                <div class="header">{{ product.name }}</div>
+                <a href="{{ product.url }}" target="_blank" class="header">{{ product.name }}</a>
                 <div class="description">{{ product.digest }}</div>
                 <div class="ui tiny image avatar">
                     <img src="{{ product.user.avatar }}" alt="{{ product.user.nickname }}">
