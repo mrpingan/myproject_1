@@ -12,11 +12,13 @@ register = template.Library()
 def vote_button(context,product):
     user = context['user']
     if user.is_authenticated:
-        return {
+        result = {
             'voted':ProductVote.voted(user,product),
             'pid':product.pid,
             'vote_count':product.vote_count
         }
+        print(result)
+        return result
 
     return {'vote':False,'pid':product.pid,'vote_count':product.vote_count}
 

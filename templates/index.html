@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+{% load buttons %}
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -91,7 +92,7 @@
     $(function () {
         $(".ui.inline.dropdown").dropdown();
 
-        $(".btn-share").bind("click",function (e) {
+        $(".btn-share").on("click",function (e) {
             {% if request.user.is_authenticated %}
                 $('.ui.mini.modal.share').modal("show");
             {% else %}
@@ -100,14 +101,13 @@
             {% endif %}
         });
 
-        $("#load-btn").bind("click",function (e) {
+        $("#load-btn").on("click",function (e) {
             var lastDate = $("#products-wrapper .date").last().text();
 
             $.ajax({
                 type: "GET",
                 url:"/?last_dt=" + lastDate,
                 success:function (response) {
-                    console.log(response);
                     $("#products-wrapper").append(response)
                 },
                 error:function (err) {
@@ -116,7 +116,12 @@
             })
 
         });
-        $(document).bind("click",".upvote-link",function (e) {
+
+{#         $(".upvote-link").on("click",function (e) {#}
+
+        $(document).on("click",".upvote-link",function (e) {
+
+             debugger;
             var self = $(this);
             $.ajax({
                 type: "POST",
@@ -134,21 +139,20 @@
                         var $vote = self.find(".vote-count");
                         var vote_count = parseInt($vote.text()) + 1;
                         $vote.text(data.vote_count);
-                        self.addClass("upvote-active")
+                        self.addClass("upvote-active");
                     }else if (errcode === 403){
                         window.location.href = '/auth/github';
-                    }
-                    else {
+                    } else {
                         alert(message);
                     }
-                    console.log(response)
+                    console.log(response);
                 },
                 error: function (err) {
                     alert(err);
                 }
             })
         });
-    })
+    });
 </script>
 
 

@@ -14,11 +14,13 @@ Including another URLconf
     2. Add a URL to urlpatterns:  url(r'^blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path
+from django.urls import path,include
 
 from apps.views import index_view
 from apps.account.views import login_view,logout_view,auth_github_view,auth_github_callback_view
 from apps.product.views import new_product_view,new_product_vote
+
+import debug_toolbar
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -30,5 +32,6 @@ urlpatterns = [
 
     path('product/new/',new_product_view,name='new_product'),
     path('product/vote/',new_product_vote,name='vote_product'),
+    path("__debug__",include(debug_toolbar.urls)),
 
 ]
