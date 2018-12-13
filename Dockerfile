@@ -4,10 +4,12 @@ WORKDIR /usr/src/app
 
 COPY . .
 
-RUN pip install -r requirements.txt -i https://pypi.tuna.tsinghua.edu.cn/simple \
-    && python manage_prod.py collectstatic --noinput
+RUN pip install -r requirements.txt -i https://pypi.tuna.tsinghua.edu.cn/simple
 
+CMD ["yum","install","uwsgi uwsgi-devel uwsgi-plugin-python"]
 
-CMD ["uwsgi","--ini","django_uwsgi.ini"]
+CMD ["/bin/sh","start_server.sh"]
+
+CMD ["tail","start_server.sh"]
 
 
