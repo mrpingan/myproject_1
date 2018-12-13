@@ -1,4 +1,7 @@
+certifi==2018.11.29
+chardet==3.0.4
 Django==2.1.3
+django-debug-toolbar==1.11
 hashids==1.2.0
 pytz==2018.7
 idna==2.7

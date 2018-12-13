@@ -17,7 +17,7 @@ def vote_button(context,product):
             'pid':product.pid,
             'vote_count':product.vote_count
         }
-        print(result)
+
         return result
 
     return {'vote':False,'pid':product.pid,'vote_count':product.vote_count}

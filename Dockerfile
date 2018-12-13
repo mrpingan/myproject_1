@@ -4,7 +4,7 @@ WORKDIR /usr/src/app
 
 COPY . .
 
-RUN pip install -r requirements.txt \
+RUN pip install -r requirements.txt -i https://pypi.tuna.tsinghua.edu.cn/simple \
     && python manage_prod.py collectstatic --noinput
 
 
