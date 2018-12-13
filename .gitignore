@@ -14,5 +14,4 @@ apps/account/migrations/__pycache__/
 apps/product/__pycache__/
 apps/product/migrations/__pycache__/
 settings/__pycache__/
-static/
 utils/__pycache__/

@@ -1,0 +1,13 @@
+# IntelliJ project files
+.idea
+*.iml
+out
+gen
+__pycache__/
+apps/__pycache__/
+apps/account/__pycache__/
+apps/account/migrations/__pycache__/
+apps/product/__pycache__/
+apps/product/migrations/__pycache__/
+settings/__pycache__/
+utils/__pycache__/
