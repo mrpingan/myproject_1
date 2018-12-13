@@ -24,6 +24,7 @@ def index_view(request,days=4):
         return render(request,'index.html',context)
 
     else:   #渲染前一天数据
+        
         print(last_dt)
         _date = str2date(last_dt) + timedelta(-1)
 

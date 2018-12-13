@@ -40,7 +40,7 @@
     <h1 class="ui inverted center aligned header slogan">
         有味道的产品
         <p class="ui sub header">不错过任何一个新产品</p>
-        <button class="ui large green circular button btn-share"><i class="icon plus"></i>分享产品</button>
+        <button class="ui large yellow circular button btn-share"><i class="icon plus"></i>分享产品</button>
     </h1>
 </div>
 
@@ -48,7 +48,7 @@
     <h1 class="ui center aligned header">产品列表</h1>
 
     <div class="ui centered grid container">
-        <div class="ten wide column">
+        <div class="nine wide column">
 
         <div id="products-wrapper">
             {% for dt,items in products.items  %}
@@ -101,6 +101,11 @@
             {% endif %}
         });
 
+{#        $(".ui.inverted.header").on("click",function (e) {#}
+{#            window.location.href = '/'#}
+{##}
+{#        });#}
+
         $("#load-btn").on("click",function (e) {
             var lastDate = $("#products-wrapper .date").last().text();
 
@@ -117,11 +122,9 @@
 
         });
 
-{#         $(".upvote-link").on("click",function (e) {#}
 
         $(document).on("click",".upvote-link",function (e) {
 
-             debugger;
             var self = $(this);
             $.ajax({
                 type: "POST",
@@ -145,7 +148,6 @@
                     } else {
                         alert(message);
                     }
-                    console.log(response);
                 },
                 error: function (err) {
                     alert(err);
