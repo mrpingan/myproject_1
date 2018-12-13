@@ -5,6 +5,9 @@
 # IntelliJ project files
 .idea
 *.iml
+.gitignore
+*.vscode/
+
 out
 gen
 __pycache__/
